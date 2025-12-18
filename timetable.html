@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Generated Timetables ({{ num_timetables }})</h2>
+
+{% for t in range(num_timetables) %}
+<h3>Class {{ t+1 }}</h3>
+
+<table class="grid">
+  <tr>
+    <th>Day</th>
+    {% for i in range(periods) %}
+      <th>Period {{ i+1 }}</th>
+    {% endfor %}
+  </tr>
+
+  {% for d in range(days|length) %}
+  <tr>
+    <td><strong>{{ days[d] }}</strong></td>
+
+    {% for p in range(periods) %}
+      {% set cell = timetables[t][d][p] %}
+      {% if cell == "SKIP" %}
+      {% elif cell is mapping %}
+        <td colspan="{{ cell.colspan }}">{{ cell.text }}</td>
+      {% else %}
+        <td>{{ cell }}</td>
+      {% endif %}
+    {% endfor %}
+  </tr>
+  {% endfor %}
+</table>
+<br>
+{% endfor %}
+
+{% endblock %}

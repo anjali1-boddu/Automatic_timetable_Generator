@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<form action="/add_teacher" method="POST" class="card">
+  <h3>Add Teacher</h3>
+  <label>Teacher Name</label>
+  <input type="text" name="name" required>
+
+  <label>Subject</label>
+  <input type="text" name="subject" required>
+
+  <label>Number of Periods (per week)</label>
+  <input type="number" name="periods" min="1" required>
+
+  <label>Span (Number of consecutive periods, e.g., 2 for Lab)</label>
+  <input type="number" name="span" min="1" value="1">
+
+  <button type="submit">Add</button>
+</form>
+
+<div class="card">
+  <h3>Current Teachers</h3>
+  {% if teachers %}
+  <table>
+    <tr><th>Name</th><th>Subject</th><th>Periods</th><th>Span</th></tr>
+    {% for t in teachers %}
+      <tr>
+        <td>{{ t.name }}</td>
+        <td>{{ t.subject }}</td>
+        <td>{{ t.periods }}</td>
+        <td>{{ t.span }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+    <p>No teachers added yet.</p>
+  {% endif %}
+</div>
+
+<div class="card">
+  <h3>Generate Timetables</h3>
+  <form action="/generate" method="POST">
+    <label>How many timetables do you want?</label>
+    <input type="number" name="num_timetables" min="1" value="1" required>
+
+    <label>Number of periods per day</label>
+    <input type="number" name="periods_per_day" min="1" value="6" required>
+
+    <button type="submit">Generate Timetables</button>
+  </form>
+</div>
+{% endblock %}
